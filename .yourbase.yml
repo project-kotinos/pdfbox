@@ -8,7 +8,7 @@ build_targets:
     container:
       image: yourbase/yb_ubuntu:18.04
     commands:
-      - mvn -B deploy -Ppedantic -Dmaven.source.skip=true
+      - mvn -B test
 ci:
   builds:
     - name: default
