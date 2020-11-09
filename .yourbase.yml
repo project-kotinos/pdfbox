@@ -5,8 +5,8 @@ dependencies:
 
 build_targets:
   - name: default
-    container:
-      image: yourbase/yb_ubuntu:18.04
+    environment:
+      - SKIPPER_IGNORE=mvn -B test -Pjdk11
     commands:
       - mvn -B test -Pjdk11
 
