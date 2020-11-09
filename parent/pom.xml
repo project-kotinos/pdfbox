@@ -52,7 +52,7 @@
         <bouncycastle.version>1.67</bouncycastle.version>
 
         <!-- This is a default value to avoid problems when running single tests
-             see also https://stackoverflow.com/a/28695766/535646 
+             see also https://stackoverflow.com/a/28695766/535646
              https://maven.apache.org/surefire/maven-surefire-plugin/faq.html#late-property-evaluation
         -->
         <surefireArgLine></surefireArgLine>
@@ -164,7 +164,7 @@
         </profile>
         <profile>
             <!-- from jdk11 onwards java.xml.bind is no longer part of the jdk -->
-            <!-- must be set to "test" or "provided" in subprojects --> 
+            <!-- must be set to "test" or "provided" in subprojects -->
             <id>jdk11</id>
             <activation>
                 <jdk>[11,)</jdk>
@@ -234,8 +234,39 @@
         </profile>
     </profiles>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>yourbase-release</id>
+            <url>http://yourbase-maven-repo.s3-website-us-west-2.amazonaws.com/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <build>
         <plugins>
+            <plugin>
+                <groupId>io.yourbase</groupId>
+                <artifactId>yourbase-maven-plugin</artifactId>
+                <version>1.1.7-SNAPSHOT</version>
+                <configuration>
+                    <propertyName>surefireArgLine</propertyName>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>yb-init</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>yb-reporting</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -255,7 +286,7 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
-                    </execution>                
+                    </execution>
                 </executions>
             </plugin>
             <plugin>

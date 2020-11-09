@@ -2,13 +2,28 @@ dependencies:
   build:
    - maven:3.6.3
    - java:11.0.8
-   
+
 build_targets:
   - name: default
     container:
       image: yourbase/yb_ubuntu:18.04
     commands:
-      - mvn -B test
+      - mvn -B test -Pjdk11
+
+  - name: local-1
+    container:
+      image: yourbase/yb_ubuntu:18.04
+      mounts:
+        - /Users/jamesnaftel/dev/yourbase/yourbase-java-engine/buildgraph-agent/target/buildgraph-agent-1.0-ALPHA.jar:/yourbase-agent.jar
+    environment:
+      - YB_DEBUG=true
+      - YB_BUILD_UUID=ch1
+      - YB_AGENT_JAR=/yourbase-agent.jar
+    commands:
+      - find . -name "yourbase*.log" -exec rm -f {} \;
+      - find . -name "*.ybgraph" -exec rm -f {} \;
+      - mvn -B clean test -Pjdk11
+
 ci:
   builds:
     - name: default
