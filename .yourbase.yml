@@ -20,9 +20,7 @@ build_targets:
       - YB_BUILD_UUID=ch1
       - YB_AGENT_JAR=/yourbase-agent.jar
     commands:
-      - find . -name "yourbase*.log" -exec rm -f {} \;
-      - find . -name "*.ybgraph" -exec rm -f {} \;
-      - mvn -B clean test -Pjdk11
+      - mvn -B test
 
 ci:
   builds:
